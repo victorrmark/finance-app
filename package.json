@@ -4,17 +4,20 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "json-server": "json-server --watch ./_db/db.json --port 4000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "chart.js": "^4.5.0",
     "next": "15.4.4",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/postcss": "^4",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",

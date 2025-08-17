@@ -2,6 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
+h1 {
+  @apply text-[2rem] font-bold text-grey-900;
+}
+
+h2 {
+  @apply text-xl font-bold text-grey-900;
+}
+
+.preset-3 {
+  @apply text-base font-bold text-grey-900;
+}
+.preset-4 {
+  @apply text-sm text-grey-500;
+}
+.preset-4-bold {
+  @apply text-sm font-bold text-grey-900;
+}
+.preset-5 {
+  @apply text-xs text-grey-500;
+}
+.preset-5-bold {
+  @apply text-xs font-bold text-grey-900;
+}
+
+.balance-box {
+  @apply flex
+  flex-col
+  gap-1
+  sm:gap-3
+  p-5 
+  sm:p-6
+  rounded-xl
+  grow
+  min-w-0 
+  break-words;
+}
+
+.btn {
+  @apply 
+  flex 
+  rounded-lg 
+  px-4 
+  py-3.5
+  gap-4 
+  items-center 
+  border 
+}
+
+.btn-text{
+  @apply 
+  text-sm 
+  text-grey-900
+  hidden 
+  sm:inline-block
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;

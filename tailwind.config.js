@@ -14,7 +14,14 @@ module.exports = {
         "preset-4": "0.875rem",
         "preset-5": "0.75rem",
       },
+      colors:{
+        'beige-100': "#f8f4f0",
+        'grey-900': "#201f24",
+        'grey-500': "#696868"
+      }
     }
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/container-queries'),
+  ],
 };

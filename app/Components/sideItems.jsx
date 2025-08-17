@@ -12,7 +12,7 @@ export default function SideItems({ name, href, collapsed, icon }) {
         <div
           className={`relative group flex sm:flex-col sm:items-center lg:mr-5 transition-all duration-300 ${
             isActive
-              ? "bg-white text-gray-900 py-3.5 sm:pb-2 rounded-t-xl after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-1 after:w-full after:bg-green-700 pb-3 lg:rounded-r-xl lg:rounded-tl-none lg:after:h-full lg:after:w-1 lg:after:top-0 lg:after:left-0"
+              ? "bg-beige-100 text-gray-900 py-3.5 sm:pb-2 rounded-t-xl after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-1 after:w-full after:bg-green-700 pb-3 lg:rounded-r-xl lg:rounded-tl-none lg:after:h-full lg:after:w-1 lg:after:top-0 lg:after:left-0"
               : "text-gray-300"
           } px-6   lg:py-4 lg:flex-row lg:gap-5 ${
             collapsed ? "lg:px-0" : "lg:px-10"

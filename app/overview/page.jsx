@@ -1,23 +1,32 @@
+import Recurring from "./recurring";
+import Balance from "./balance";
+import Pots from "./pots";
+import Transactions from "./transactions";
+import Budgets from "./budgets";
+
 export default function OverView() {
   return (
-    <div>
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-      Lorem Ipsum has been the industry's standard dummy text ever since the
-      1500s, when an unknown printer took a galley of type and scrambled it to
-      make a type specimen book. It has survived not only five centuries, but
-      also the leap into electronic typesetting, remaining essentially
-      unchanged. It was popularised in the 1960s with the release of Letraset
-      sheets containing Lorem Ipsum passages, and more recently with desktop
-      publishing software like Aldus PageMaker including versions of Lorem
-      Ipsum. It is a long established fact that a reader will be distracted by
-      the readable content of a page when looking at its layout. The point of
-      using Lorem Ipsum is that it has a more-or-less normal distribution of
-      letters, as opposed to using 'Content here, content here', making it look
-      like readable English. Many desktop publishing packages and web page
-      editors now use Lorem Ipsum as their default model text, and a search for
-      'lorem ipsum' will uncover many web sites still in their infancy. Various
-      versions have evolved over the years, sometimes by accident, sometimes on
-      purpose (injected humour and the like).
-    </div>
+    <>
+      <h1>Overview</h1>
+      <Balance />
+      <main className="grid lg:grid-cols-2 lg:auto-rows-auto gap-5 lg:gap-3.5">
+        <div className="lg:row-span-1 lg:col-start-1 lg:row-start-1">
+          <Pots />
+        </div>
+
+        <div className="lg:row-span-2 lg:col-start-1 lg:row-start-2">
+          <Transactions />
+        </div>
+
+        <div className="lg:row-span-2 lg:col-start-2 lg:row-start-1">
+          <Budgets />
+        </div>
+
+        <div className="lg:row-span-1 lg:col-start-2 lg:row-start-3">
+          <Recurring />
+        </div>
+      </main>
+
+    </>
   );
 }
