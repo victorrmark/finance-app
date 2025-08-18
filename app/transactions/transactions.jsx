@@ -2,7 +2,11 @@
 import { formatAmount } from "@/utils/formatCash";
 import Image from "next/image";
 
-export default function Transactions({ transactions }) {
+export default function Transactions({ props }) {
+  const {transactions, page, limit} = props
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+  const paginatedtrx = transactions.slice(startIndex, endIndex);
   return (
     <>
       <div className="hidden sm:flex w-full gap-10 justify-between border-b border-gray-200 pb-5">
@@ -16,9 +20,9 @@ export default function Transactions({ transactions }) {
         </span>
       </div>
       <ul>
-        {transactions.map((trx, idx) => {
+        {paginatedtrx.map((trx, idx) => {
           const isFirst = idx === 0;
-          const isLast = idx === transactions.length - 1;
+          const isLast = idx === paginatedtrx.length - 1;
 
           const paddingClass = isFirst ? "pb-5" : isLast ? "pt-5" : "py-5";
 
@@ -29,18 +33,18 @@ export default function Transactions({ transactions }) {
                 idx > 0 ? "border-t border-gray-200" : ""
               }`}
             >
-              <div className="flex flex-col items-start sm:flex-row justify-between sm:items-center w-[50%]">
-                <span className="flex gap-3 items-center">
-                  <Image
-                    alt="transaction icon"
-                    src={trx.avatar}
-                    width={30}
-                    height={30}
-                    className="rounded-full"
-                  />
+              <div className="flex gap-3 items-start  sm:items-center w-[50%]">
+                <Image
+                  alt="transaction icon"
+                  src={trx.avatar}
+                  width={30}
+                  height={30}
+                  className="rounded-full"
+                />
+                <span className="flex flex-col sm:flex-row sm:items-center w-full justify-between">
                   <p className="preset-4-bold">{trx.name}</p>
+                  <p className="preset-5 text-left">{trx.category}</p>
                 </span>
-                <p className="preset-5 text-left">{trx.category}</p>
               </div>
               <div className="flex flex-col items-end sm:flex-row-reverse justify-between w-[50%] sm:items-center">
                 <p

@@ -16,7 +16,7 @@ export default function Pagination({ props }) {
             router.push(`/transactions/?page=${Number(page) - 1}&limit=${limit}`);
           }
         }}
-        className="btn border-beige-500"
+        className="btn border-beige-500 group"
       >
         <Image
           alt="maximize menu icon"
@@ -24,7 +24,7 @@ export default function Pagination({ props }) {
           width={10}
           height={10}
         />
-        <p className="btn-text">Prev</p>
+        <p className="btn-text group-hover:text-white">Prev</p>
       </button>
 
       <div>
@@ -48,7 +48,7 @@ export default function Pagination({ props }) {
                   pageNumber === Number(page)
                     ? "bg-gray-900 text-white"
                     : "bg-white text-gray-900 border border-beige-500"
-                } px-4 py-2 rounded-lg transition-colors duration-300`}
+                } px-4 py-2 rounded-lg transition-colors duration-300 hover:bg-gray-400 hover:text-white`}
               >
                 {pageNumber}
               </button>
@@ -65,7 +65,7 @@ export default function Pagination({ props }) {
             );
           }
         }}
-        className="btn border-beige-500"
+        className="btn border-beige-500 group"
       >
         <Image
           alt="maximize menu icon"
@@ -73,7 +73,7 @@ export default function Pagination({ props }) {
           width={10}
           height={10}
         />
-        <p className="btn-text">Next</p>
+        <p className="btn-text group-hover:text-white">Next</p>
       </button>
     </div>
   );
