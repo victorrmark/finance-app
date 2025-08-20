@@ -1,29 +1,46 @@
 import Transactions from "./transactions.jsx";
 import { getBaseUrl } from "@/utils/baseURL.js";
 import Pagination from "./pagination.jsx";
+import Search from "./search.jsx";
+import Filter from "./filter.jsx";
+import SortBy from "./sort.jsx";
 
-async function fetchTransactions() {
+async function fetchTransactions(
+  query = "",
+  filterBy = "all",
+  sortBy = "latest"
+) {
   const response = await fetch(
-    `${getBaseUrl()}/api/transactions`
+    `${getBaseUrl()}/api/transactions?query=${query}&filterBy=${filterBy}&sortBy=${sortBy}`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch transactions");
   }
-  const { transactions } = await response.json();
-  return { transactions };
+  const { transactions, categories } = await response.json();
+  return { transactions, categories };
 }
 
 export default async function TransactionsPage({ searchParams }) {
   const params = await searchParams;
 
-  const page = Number(params.page ?? "1");
-  const limit = Number(params.limit ?? "10");
-  const { transactions } = await fetchTransactions();
+  const page = Number(params.page) ? Number(params.page) : 1;
+  const limit = Number(params.limit) ? Number(params.limit) : 10;
+
+  const { transactions, categories } = await fetchTransactions(
+    params.query || "",
+    params.filterBy || "all",
+    params.sortBy || "latest"
+  );
+
   const totalPages = Math.ceil(transactions.length / limit);
 
   return (
     <>
       <h1>Transactions</h1>
+
+      <Search />
+      <Filter categories={categories} />
+      <SortBy />
 
       <div className="mt-8 flex flex-col gap-6 py-6 px-5 sm:p-8 bg-white rounded-xl">
         <Transactions props={{ transactions, page, limit }} />

@@ -1,10 +1,19 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Image from "next/image";
 
 export default function Pagination({ props }) {
-  const { page, limit, totalPages } = props;
+  const { totalPages, page, limit } = props;
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  function setPage(newPage) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage);
+    params.set("limit", limit);
+    router.push(`${pathname}?${params.toString()}`);
+  }
 
   const range = Array.from({ length: totalPages }, (_, i) => i + 1);
 
@@ -12,9 +21,7 @@ export default function Pagination({ props }) {
     <div className="flex justify-between items-center mt-6 gap-4">
       <button
         onClick={() => {
-          if (page > 1) {
-            router.push(`/transactions/?page=${Number(page) - 1}&limit=${limit}`);
-          }
+          if (page > 1) setPage(Number(page) - 1);
         }}
         className="btn border-beige-500 group"
       >
@@ -32,18 +39,17 @@ export default function Pagination({ props }) {
           {range.map((pageNumber, idx) => {
             const isFirst = idx === 0;
             const isLast = idx === range.length - 1;
-            const isActive = Number(page) === pageNumber
+            const isActive = Number(page) === pageNumber;
 
-            const paddingClass = isFirst || isLast || isActive ? "inline-block" : "hidden sm:inline-block";
-            
+            const paddingClass =
+              isFirst || isLast || isActive
+                ? "inline-block"
+                : "hidden sm:inline-block";
+
             return (
               <button
                 key={pageNumber}
-                onClick={() =>
-                  router.push(
-                    `/transactions/?page=${pageNumber}&limit=${limit}`
-                  )
-                }
+                onClick={() => setPage(Number(pageNumber))}
                 className={`${paddingClass} ${
                   pageNumber === Number(page)
                     ? "bg-gray-900 text-white"
@@ -59,11 +65,7 @@ export default function Pagination({ props }) {
 
       <button
         onClick={() => {
-          if (page < totalPages) {
-            router.push(
-              `/transactions/?page=${Number(page) + 1}&limit=${limit}`
-            );
-          }
+          if (page < totalPages) setPage(Number(page) + 1);
         }}
         className="btn border-beige-500 group"
       >

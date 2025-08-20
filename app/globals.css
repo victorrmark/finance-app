@@ -48,6 +48,7 @@ h2 {
   gap-4 
   items-center 
   border 
+  hover:bg-gray-400
 }
 
 .btn-text{
@@ -56,6 +57,7 @@ h2 {
   text-grey-900
   hidden 
   sm:inline-block
+  
 }
 
 /* :root {

@@ -3,10 +3,11 @@ import { formatAmount } from "@/utils/formatCash";
 import Image from "next/image";
 
 export default function Transactions({ props }) {
-  const {transactions, page, limit} = props
-  const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
+  const { transactions, page, limit } = props;
+  const startIndex = (Number(page) - 1) * Number(limit);
+  const endIndex = startIndex + Number(limit);
   const paginatedtrx = transactions.slice(startIndex, endIndex);
+  
   return (
     <>
       <div className="hidden sm:flex w-full gap-10 justify-between border-b border-gray-200 pb-5">
