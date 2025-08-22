@@ -1,36 +1,46 @@
 "use client";
-import { useFinanceData } from "../context/DataContext";
 import Image from "next/image";
 import { formatAmount } from "@/utils/formatCash";
 
-export default function RecurringBills() {
-  const { recurringTrx } = useFinanceData();
-  const sorted = recurringTrx.sort(
-    (a, b) => new Date(a.date).getDate() - new Date(b.date).getDate()
-  );
+export default function RecurringBills({ transactions }) {
+  // const sorted = transactions.sort(
+  //   (a, b) => new Date(a.date).getDate() - new Date(b.date).getDate()
+  // );
 
   const categorize = (day) => {
-    const today = new Date().getDate();
-    const trxday = new Date(day).getDate();
-    if (trxday < today) {
+    const today = new Date();
+    const dueDate = new Date(day);
+
+    today.setHours(0, 0, 0, 0);
+    dueDate.setHours(0, 0, 0, 0);
+
+    const diffMs = dueDate - today;
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+    if (diffDays < 0) {
       return {
         status: "Paid",
         color: "text-green-600",
         icon: "/images/bill-paid.svg",
       };
-    } else if (trxday >= today && trxday <= today + 5) {
+    } else if (diffDays <= 5) {
       return {
         status: "Due Soon",
         color: "text-red-600",
         icon: "/images/bill-due.svg",
       };
     } else {
-      return { status: "Upcoming", color: "text-grey-900" };
+      return {
+        status: "Upcoming",
+        color: "text-gray-900",
+        icon: null,
+      };
     }
+
   };
 
   return (
-    <div className="flex flex-col gap-6 py-6 px-5 sm:p-8 bg-white rounded-xl">
+    <>
       <div className="hidden sm:flex w-full gap-2 justify-between border-b border-gray-200 pb-5">
         <span className="flex justify-between w-[60%] preset-5 grow ">
           <p>Bill Title</p>
@@ -42,11 +52,11 @@ export default function RecurringBills() {
       </div>
 
       <ul>
-        {sorted.map((trx, idx) => {
+        {transactions.map((trx, idx) => {
           const { status, color, icon } = categorize(trx.date);
 
           const isFirst = idx === 0;
-          const isLast = idx === sorted.length - 1;
+          const isLast = idx === transactions.length - 1;
 
           const paddingClass = isFirst ? "pb-5" : isLast ? "pt-5" : "py-5";
 
@@ -73,9 +83,8 @@ export default function RecurringBills() {
               <div className="flex items-end justify-between sm:w-[35%] sm:items-center grow">
                 <span className="flex items-center gap-2">
                   <p className={`${color} text-xs`}>
-                    Monthly-
                     {new Date(trx.date).toLocaleDateString("en-GB", {
-                      day: "numeric",
+                      day: "numeric", month: "short", year: "numeric"
                     })}
                   </p>
                   {icon && (
@@ -101,7 +110,7 @@ export default function RecurringBills() {
           );
         })}
       </ul>
-    </div>
+    </>
   );
 }
 ``;

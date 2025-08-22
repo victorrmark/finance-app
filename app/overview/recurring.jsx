@@ -16,13 +16,21 @@ export default function Recurring() {
   ];
 
   recurringTrx.forEach((trx) => {
-    const trxDay = new Date(trx.date).getDate();
-    if (trxDay < currentDay) {
+    const today = new Date();
+    const dueDate = new Date(trx.date);
+
+    today.setHours(0, 0, 0, 0);
+    dueDate.setHours(0, 0, 0, 0);
+
+    const diffMs = dueDate - today;
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+    if (diffDays < 0) {
       recurring[0].amount += Math.abs(Number(trx.amount));
-    } else if (trxDay >= currentDay && trxDay < currentDay + 5) {
-      recurring[2].amount += Math.abs(Number(trx.amount));
-    } else {
+    } else if (diffDays <= 5) {
       recurring[1].amount += Math.abs(Number(trx.amount));
+    } else {
+      recurring[2].amount += Math.abs(Number(trx.amount));
     }
   });
 

@@ -52,7 +52,7 @@ export async function GET(request) {
 
   const recurringTrx = [
     ...new Map(
-      data.transactions
+      filteredTransactions
         .filter((transaction) => transaction.recurring)
         .map((trx) => [trx.name, trx])
     ).values(),

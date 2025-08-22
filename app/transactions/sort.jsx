@@ -66,7 +66,7 @@ export default function SortBy() {
             height={20}
             className="sm:hidden "
           />
-          <p className="hidden sm:inline-block text-sm text-gray-900">
+          <p className="hidden sm:inline-block text-sm text-gray-900 truncate">
             {currentLabel}
           </p>
           <span
@@ -113,31 +113,6 @@ export default function SortBy() {
         )}
       </div>
 
-      {/* <form className="hidden relative sm:flex gap-2 items-center">
-        <label htmlFor="sortBy" className="preset-4">
-          Sort by
-        </label>
-        <div className="relative">
-          <select
-            id="sortBy"
-            className="appearance-none  "
-            onChange={(e) => handleSort(e.target.value)}
-            defaultValue={searchParams.get("sortBy")?.toString() || "latest"}
-            onClick={() => setIsSelectOpen((prev) => !prev)}
-            onBlur={() => setIsSelectOpen(false)}
-          >
-            <option value="latest">Latest</option>
-            {categories.map((category, index) => (
-              <option key={index} value={category.value}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
-            <Image alt="chevron" src="/images/chevron-icon.svg" width={20} height={20} className={`isSelectOpen ? 'rotate-180 outline' : ''`} />
-          </span>
-        </div>
-      </form> */}
     </div>
   );
 }

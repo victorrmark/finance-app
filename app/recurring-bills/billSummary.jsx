@@ -1,16 +1,13 @@
 "use client";
 import Image from "next/image";
 import { formatAmount } from "@/utils/formatCash";
-import { useFinanceData } from "../context/DataContext";
 
-export default function BillSummary() {
-  const { recurringTrx } = useFinanceData();
-  const totalBills = recurringTrx.reduce(
+export default function BillSummary({ transactions }) {
+  const totalBills = transactions.reduce(
     (acc, trx) => acc + Math.abs(Number(trx.amount)),
     0
   );
 
-  const currentDay = new Date().getDate();
 
   const recurring = [
     { name: "Paid", amount: 0, total: 0 },
@@ -18,19 +15,27 @@ export default function BillSummary() {
     { name: "Upcoming", amount: 0, total: 0 },
   ];
 
-  recurringTrx.forEach((trx) => {
-    const trxDay = new Date(trx.date).getDate();
+  transactions.forEach((trx) => {
+    const today = new Date();
+    const dueDate = new Date(trx.date);
 
-    if (trxDay < currentDay) {
-      recurring[0].amount += Math.abs(Number(trx.amount));
-      recurring[0].total += 1;
-    } else if (trxDay >= currentDay && trxDay < currentDay + 5) {
+    today.setHours(0, 0, 0, 0);
+    dueDate.setHours(0, 0, 0, 0);
+
+    const diffMs = dueDate - today;
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+    if (diffDays < 0) {
+        recurring[0].amount += Math.abs(Number(trx.amount));
+        recurring[0].total += 1;
+    } else if (diffDays <= 5) {
       recurring[1].amount += Math.abs(Number(trx.amount));
       recurring[1].total += 1;
     } else {
       recurring[2].amount += Math.abs(Number(trx.amount));
       recurring[2].total += 1;
     }
+
   });
 
   return (

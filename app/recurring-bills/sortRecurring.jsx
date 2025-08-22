@@ -1,30 +1,36 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { useState, useRef, useEffect } from "react";
 
-export default function Filter({ categories }) {
+export default function SortRecurring() {
+  const categories = [
+    { name: "Oldest", value: "oldest" },
+    { name: "A to Z", value: "ascending" },
+    { name: "Z to A", value: "descending" },
+    { name: "Highest", value: "highest" },
+    { name: "Lowest", value: "lowest" },
+  ];
+
   const searchParams = useSearchParams();
-
   const pathname = usePathname();
   const { replace } = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
-  const currentValue = searchParams.get("filterBy") || "all";
+  const currentValue = searchParams.get("sortBy") || "latest";
   const currentLabel =
-    currentValue === "all"
-      ? "All Transactions"
-      : currentValue;
+    currentValue === "latest"
+      ? "Latest"
+      : categories.find((c) => c.value === currentValue)?.name;
 
-  const handleFilterByCategory = (category) => {
+  const handleSort = (sort) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("page", "1");
-    if (category === "all") {
-      params.delete("filterBy");
+    if (sort === "latest") {
+      params.delete("sortBy");
     } else {
-      params.set("filterBy", category);
+      params.set("sortBy", sort);
     }
     replace(`${pathname}?${params.toString()}`);
     setIsOpen(false);
@@ -45,7 +51,7 @@ export default function Filter({ categories }) {
 
   return (
     <div className="relative sm:flex sm:gap-3 items-center">
-      <p className="preset-4 hidden sm:inline-block">Category</p>
+      <p className="preset-4 hidden sm:inline-block">Sort by</p>
       <div ref={menuRef}>
         <button
           type="button"
@@ -53,8 +59,8 @@ export default function Filter({ categories }) {
           className="p-2 rounded-md sm:px-5 sm:py-3 sm:rounded-lg sm:border sm:border-beige-500 sm:flex gap-3 items-center focus:border-gray-900 "
         >
           <Image
-            alt="filter Transactions"
-            src="/images/filter-icon.svg"
+            alt="Sort Transactions"
+            src="/images/sort-icon.svg"
             width={20}
             height={20}
             className="sm:hidden "
@@ -77,26 +83,28 @@ export default function Filter({ categories }) {
         </button>
 
         {isOpen && (
-          <div className="absolute mt-5 w-44 h-80 overflow-auto bg-white rounded-md shadow-md z-10 px-3 right-0">
+          <div className="absolute mt-5 w-32 bg-white rounded-md shadow-md z-10 px-3 right-0">
             <ul className="py-1">
-              <li className="py-3 text-sm text-gray-400 sm:hidden">Category</li>
+              <li className="py-3 text-sm text-gray-400 sm:hidden">Sort By</li>
               <li
-                onClick={() => handleFilterByCategory("all")}
-                className={`py-3 hover:bg-neutral-200 cursor-pointer border-t sm:border-none border-gray-200 text-gray-900 text-sm ${
-                  !searchParams.get("filterBy") ? "font-bold" : ""
+                onClick={() => handleSort("latest")}
+                className={`py-3 hover:bg-neutral-200 cursor-pointer border-t border-gray-200 sm:border-none text-gray-900 text-sm ${
+                  !searchParams.get("sortBy") ? "font-bold" : ""
                 }`}
               >
-                All Transactions
+                Latest
               </li>
               {categories.map((category, index) => (
                 <li
                   key={index}
-                  onClick={() => handleFilterByCategory(category)}
+                  onClick={() => handleSort(category.value)}
                   className={`py-3 hover:bg-neutral-200 cursor-pointer border-t border-gray-200 text-gray-900 text-sm ${
-                    searchParams.get("filterBy") === category ? "font-bold" : ""
+                    searchParams.get("sortBy") === category.value
+                      ? "font-bold"
+                      : ""
                   }`}
                 >
-                  {category}
+                  {category.name}
                 </li>
               ))}
             </ul>
@@ -104,22 +112,6 @@ export default function Filter({ categories }) {
         )}
       </div>
 
-      {/* <form className="hidden sm:inline-block w-[10%] bg-neutral-400 px-2 py-1 rounded-md">
-        <label htmlFor="filterBy">Category</label>
-        <select
-          id="filterBy"
-          className="bg-neutral-400 w-full"
-          onChange={(e) => handleFilterByCategory(e.target.value)}
-          defaultValue={searchParams.get("filterBy")?.toString() || "all"}
-        >
-          <option value="all">All Transactions</option>
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-      </form> */}
     </div>
   );
 }

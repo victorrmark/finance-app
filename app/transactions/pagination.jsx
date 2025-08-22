@@ -15,6 +15,14 @@ export default function Pagination({ props }) {
     router.push(`${pathname}?${params.toString()}`);
   }
 
+  function gotoPage(event) {
+    if(event.key !== "Enter") return;
+    if(event.target.value >= 1 && event.target.value <= totalPages) {
+      const newPage = Number(event.target.value);
+      setPage(newPage);
+    }
+  }
+
   const currentPage = Number(page);
 
   const PageButton = ({ num, active }) => (
@@ -54,13 +62,15 @@ export default function Pagination({ props }) {
         <div className="flex sm:hidden gap-2 items-center">
           <PageButton num={1} active={currentPage === 1} />
 
-          {currentPage > 3 && <span className="px-2">…</span>}
+          {currentPage > 3 && <input placeholder="…" type="number" onKeyDown={(e) => {gotoPage(e)}}/>}
 
           {currentPage !== 1 && currentPage !== totalPages && (
             <PageButton num={currentPage} active />
           )}
 
-          {currentPage < totalPages - 2 && <span className="px-2">…</span>}
+          {currentPage < totalPages - 1 && (
+            <input placeholder="…" type="number" onKeyDown={(e) => {gotoPage(e)}}/>
+          )}
 
           {totalPages > 1 && (
             <PageButton num={totalPages} active={currentPage === totalPages} />
