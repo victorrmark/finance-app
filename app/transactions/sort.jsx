@@ -1,8 +1,7 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { useState } from "react";
-// import { FiChevronDown, FiChevronUp, FiFilter } from "react-icons/fi";
+import { useState, useRef, useEffect } from "react";
 
 export default function SortBy() {
   const categories = [
@@ -17,8 +16,14 @@ export default function SortBy() {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const [isOpen, setIsOpen] = useState(false); // for icon toggle on small screens
-  const [isSelectOpen, setIsSelectOpen] = useState(false); // for large screen arrow toggle
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  const currentValue = searchParams.get("sortBy") || "latest";
+  const currentLabel =
+    currentValue === "latest"
+      ? "Latest"
+      : categories.find((c) => c.value === currentValue)?.name;
 
   const handleSort = (sort) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -29,27 +34,64 @@ export default function SortBy() {
       params.set("sortBy", sort);
     }
     replace(`${pathname}?${params.toString()}`);
-    setIsOpen(false); // close on small screens after selection
+    setIsOpen(false);
   };
 
+  const handleClickOutside = (e) => {
+    if (menuRef.current && !menuRef.current.contains(e.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative">
-      {/* Small screens: Icon button */}
-      <div className="sm:hidden">
+    <div className="relative sm:flex sm:gap-3 items-center">
+      <p className="preset-4 hidden sm:inline-block">Sort by</p>
+      <div ref={menuRef}>
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="p-2 rounded-md bg-neutral-400"
+          className="p-2 rounded-md sm:px-5 sm:py-3 sm:rounded-lg sm:border sm:border-beige-500 sm:flex gap-3 items-center focus:border-gray-900 "
         >
-          <Image alt="filter Transactions" src="/images/filter-icon.svg" width={20} height={20} />
+          <Image
+            alt="Sort Transactions"
+            src="/images/sort-icon.svg"
+            width={20}
+            height={20}
+            className="sm:hidden "
+          />
+          <p className="hidden sm:inline-block text-sm text-gray-900">
+            {currentLabel}
+          </p>
+          <span
+            className={`hidden sm:block transition-transform duration-700 ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          >
+            <Image
+              src="/images/chevron-icon.svg"
+              alt="Caret down"
+              width={16}
+              height={16}
+            />
+          </span>
         </button>
 
         {isOpen && (
-          <div className="absolute mt-2 w-40 bg-white rounded-md shadow-md z-10">
+          <div className="absolute mt-5 w-32 bg-white rounded-md shadow-md z-10 px-3 right-0">
             <ul className="py-1">
+              <li className="py-3 text-sm text-gray-400 sm:hidden">Sort By</li>
               <li
                 onClick={() => handleSort("latest")}
-                className="px-3 py-2 hover:bg-neutral-200 cursor-pointer"
+                className={`py-3 hover:bg-neutral-200 cursor-pointer border-t border-gray-200 sm:border-none text-gray-900 text-sm ${
+                  !searchParams.get("sortBy") ? "font-bold" : ""
+                }`}
               >
                 Latest
               </li>
@@ -57,7 +99,11 @@ export default function SortBy() {
                 <li
                   key={index}
                   onClick={() => handleSort(category.value)}
-                  className="px-3 py-2 hover:bg-neutral-200 cursor-pointer"
+                  className={`py-3 hover:bg-neutral-200 cursor-pointer border-t border-gray-200 text-gray-900 text-sm ${
+                    searchParams.get("sortBy") === category.value
+                      ? "font-bold"
+                      : ""
+                  }`}
                 >
                   {category.name}
                 </li>
@@ -67,15 +113,14 @@ export default function SortBy() {
         )}
       </div>
 
-      {/* Large screens: Styled select */}
-      <form className="hidden sm:block w-[200px] bg-neutral-400 px-2 py-1 rounded-md relative">
-        <label htmlFor="sortBy" className="sr-only">
-          Sort
+      {/* <form className="hidden relative sm:flex gap-2 items-center">
+        <label htmlFor="sortBy" className="preset-4">
+          Sort by
         </label>
         <div className="relative">
           <select
             id="sortBy"
-            className="appearance-none bg-neutral-400 w-full pr-8"
+            className="appearance-none  "
             onChange={(e) => handleSort(e.target.value)}
             defaultValue={searchParams.get("sortBy")?.toString() || "latest"}
             onClick={() => setIsSelectOpen((prev) => !prev)}
@@ -92,7 +137,7 @@ export default function SortBy() {
             <Image alt="chevron" src="/images/chevron-icon.svg" width={20} height={20} className={`isSelectOpen ? 'rotate-180 outline' : ''`} />
           </span>
         </div>
-      </form>
+      </form> */}
     </div>
   );
 }

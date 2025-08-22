@@ -38,11 +38,15 @@ export default async function TransactionsPage({ searchParams }) {
     <>
       <h1>Transactions</h1>
 
-      <Search />
-      <Filter categories={categories} />
-      <SortBy />
-
       <div className="mt-8 flex flex-col gap-6 py-6 px-5 sm:p-8 bg-white rounded-xl">
+        <div className="flex gap-6 items-center sm:justify-between ">
+          <Search />
+          <span className="flex gap-4 items-center">
+            <SortBy />
+            <Filter categories={categories} />
+          </span>
+        </div>
+
         <Transactions props={{ transactions, page, limit }} />
         <Pagination props={{ page, limit, totalPages }} />
       </div>
