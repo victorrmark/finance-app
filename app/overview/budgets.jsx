@@ -9,7 +9,6 @@ export default function Budgets() {
   const { budgets, transactions } = useFinanceData();
   const budgetCategories = budgets.map((budget) => budget.category);
   const totalBudget = budgets.reduce((acc, budget) => acc + budget.maximum, 0);
-  // console.log(totalBudget) //975;
   const budgetedTransactions = budgetCategories.map((category) =>
     transactions.filter((transaction) => transaction.category === category)
   );
