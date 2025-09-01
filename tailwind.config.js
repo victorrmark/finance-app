@@ -14,14 +14,16 @@ module.exports = {
         "preset-4": "0.875rem",
         "preset-5": "0.75rem",
       },
-      colors:{
-        'beige-100': "#f8f4f0",
-        'grey-900': "#201f24",
-        'grey-500': "#696868"
-      }
-    }
+      colors: {
+        "beige-100": "#f8f4f0",
+        "beige-500": "98908B",
+        "grey-900": "#201f24",
+        "grey-500": "#696868",
+      },
+      boxShadow: {
+        around: "0 4px 20px rgba(0, 0, 0, 0.1)",
+      },
+    },
   },
-  plugins: [
-    require('@tailwindcss/container-queries'),
-  ],
+  plugins: [require("@tailwindcss/container-queries")],
 };

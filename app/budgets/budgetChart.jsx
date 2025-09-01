@@ -21,11 +21,11 @@ export default function BudgetChart() {
   }, 0);
 
   return (
-    <div className="flex flex-col sm:flex-row lg:flex-col gap-8 px-5 py-6 sm:p-8 rounded-xl bg-white justify-between sm:items-center lg:items-start">
-      <div className="grow" >
+    <div className="flex flex-col sm:flex-row lg:flex-col gap-8 px-5 py-6 sm:p-8 rounded-xl bg-white justify-between sm:items-center lg:items-start w-full lg:w-[45%]">
+      <div className="grow flex justify-center lg:items-center lg:w-full" >
         <Donut budgetData={{ totalBudget, totalSpent, budgets }} />
       </div>
-      <div className="grow w-full">
+      <div className="grow lg:w-full">
         <h2>Spending Summary</h2>
         <div className="mt-4 flex flex-col">
           {budgets

@@ -59,10 +59,10 @@ export default function Pagination({ props }) {
       </button>
 
       <div className="flex justify-center items-center gap-2">
-        <div className="flex sm:hidden gap-2 items-center">
+        <div className="flex sm:hidden gap-2 items-center pagination-mobile">
           <PageButton num={1} active={currentPage === 1} />
 
-          {currentPage > 3 && <input placeholder="…" type="number" onKeyDown={(e) => {gotoPage(e)}}/>}
+          {currentPage > 3 && <input placeholder="…" type="number"  onKeyDown={(e) => {gotoPage(e)}}/>}
 
           {currentPage !== 1 && currentPage !== totalPages && (
             <PageButton num={currentPage} active />

@@ -37,7 +37,7 @@ async function fetchTransactions() {
 
 async function fetchBudgets() {
   const res = await fetch(`${getBaseUrl()}/api/budgets`, {
-    cache: "no-store",
+    next: { revalidate: 60 },
   });
   if (!res.ok) throw new Error("Failed to fetch budgets");
   return res.json();

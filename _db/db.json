@@ -451,22 +451,26 @@
     {
       "category": "Entertainment",
       "maximum": 50.0,
-      "theme": "#277C78"
+      "theme": "#277C78",
+      "id": "d394ecaa-239d-42f9-b03f-1b28816a2fdd"
     },
     {
       "category": "Bills",
       "maximum": 750.0,
-      "theme": "#82C9D7"
+      "theme": "#82C9D7",
+      "id": "d4b7f037-e813-48c4-b61e-4a105a1e304a"
     },
     {
       "category": "Dining Out",
       "maximum": 75.0,
-      "theme": "#F2CDAC"
+      "theme": "#F2CDAC",
+      "id": "7e5c8515-88f5-4c2c-a736-27fbf2962efa"
     },
     {
       "category": "Personal Care",
       "maximum": 100.0,
-      "theme": "#626070"
+      "theme": "#626070",
+      "id": "feb1265b-4461-41ce-8d44-295fe98a7c6c"
     }
   ],
   "pots": [

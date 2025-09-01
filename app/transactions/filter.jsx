@@ -104,22 +104,7 @@ export default function Filter({ categories }) {
         )}
       </div>
 
-      {/* <form className="hidden sm:inline-block w-[10%] bg-neutral-400 px-2 py-1 rounded-md">
-        <label htmlFor="filterBy">Category</label>
-        <select
-          id="filterBy"
-          className="bg-neutral-400 w-full"
-          onChange={(e) => handleFilterByCategory(e.target.value)}
-          defaultValue={searchParams.get("filterBy")?.toString() || "all"}
-        >
-          <option value="all">All Transactions</option>
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-      </form> */}
+
     </div>
   );
 }

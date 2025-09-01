@@ -17,7 +17,7 @@ export default function Sidebar() {
   return (
     <div
       className={`
-       fixed z-10 bottom-0 left-0 bg-black w-full h-auto flex justify-center items-end 
+       fixed z-20 bottom-0 left-0 bg-black w-full h-auto flex justify-center items-end 
       lg:relative lg:flex lg:justify-between lg:flex-col ${collapsed ? "lg:w-20" : "lg:w-64"} transition-all duration-700`}
     >
       <div className="

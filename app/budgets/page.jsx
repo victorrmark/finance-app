@@ -1,15 +1,17 @@
 import BudgetChart from "./budgetChart";
+import BudgetHeader from "./BudgetHeader";
+import Budget from "./budgets"
 
 export default function page() {
   return (
     <>
       <div className="mb-8 flex items-center justify-between">
-        <h1>Budgets</h1>
-        <button className="text-white text-sm font-bold bg-gray-900 rounded-lg p-4 hover:bg-gray-500 transition-colors duration-500">+Add New Budget</button>
+        <BudgetHeader />
       </div>
 
-      <div>
+      <div className="flex flex-col lg:flex-row gap-10 lg:gap-2.5 justify-between items-start">
         <BudgetChart />
+        <Budget />
       </div>
     </>
   );

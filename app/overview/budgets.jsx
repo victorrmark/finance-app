@@ -21,10 +21,7 @@ export default function Budgets() {
       )
     );
   }, 0);
-  // console.log(totalSpent) //892.24;
-  // const budgetTransactions = transactions.filter(transaction => transaction.type === "budget");
-  // const totalBudgeted = budgets.reduce((acc, budget) => acc + budget.maximum, 0);
-  // const totalSpent = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+
 
   return (
     <div className="flex flex-col gap-8 px-5 py-6 sm:p-8 rounded-xl bg-white">
@@ -49,7 +46,7 @@ export default function Budgets() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-1 gap-4 grow  sm:grow-0">
-          {budgets.map((item, idx) => (
+          {budgets.slice(0, 4).map((item, idx) => (
             <span
               key={idx}
               style={{ "--after-bg": item.theme }}
