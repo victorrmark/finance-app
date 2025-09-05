@@ -478,31 +478,36 @@
       "name": "Savings",
       "target": 2000.0,
       "total": 159.0,
-      "theme": "#277C78"
+      "theme": "#277C78",
+      "id": "1a824ff4-e0ae-4f29-80e4-2da9ee9d7537"
     },
     {
       "name": "Concert Ticket",
       "target": 150.0,
       "total": 110.0,
-      "theme": "#626070"
+      "theme": "#626070",
+      "id": "0690fc9c-8f15-4e0d-bc1d-61eb084ae98d"
     },
     {
       "name": "Gift",
       "target": 150.0,
       "total": 110.0,
-      "theme": "#82C9D7"
+      "theme": "#82C9D7",
+      "id": "1501c59a-fcac-4239-8ce2-1d7ccc9ccfcc"
     },
     {
       "name": "New Laptop",
       "target": 1000.0,
       "total": 10.0,
-      "theme": "#F2CDAC"
+      "theme": "#F2CDAC",
+      "id": "f1330a36-be13-4c29-a1bf-2aab9289a2aa"
     },
     {
       "name": "Holiday",
       "target": 1440.0,
       "total": 531.0,
-      "theme": "#826CB0"
+      "theme": "#826CB0",
+      "id": "208dfeaf-b7b1-4dda-8f97-1c707e8f5da8"
     }
   ]
 }

@@ -104,8 +104,7 @@ input[type="number"] {
 }
 
 .modal-content {
-  @apply 
-  fixed 
+  @apply fixed 
   top-1/2 
   left-1/2 
   -translate-x-1/2 
@@ -120,12 +119,11 @@ input[type="number"] {
   flex 
   flex-col 
   sm:max-w-[560px]
-  w-[90%]
+  w-[90%];
 }
 
-.dropDown-btn{
-  @apply
-  w-full 
+.dropDown-btn {
+  @apply w-full 
   p-2 
   rounded-md 
   sm:px-5 
@@ -137,12 +135,11 @@ input[type="number"] {
   gap-3 
   items-center 
   justify-between 
-  focus:border-gray-900
+  focus:border-gray-900;
 }
 
-.dropDown{
-  @apply
-  absolute 
+.dropDown {
+  @apply absolute 
   mt-4 
   overflow-auto 
   bg-white 
@@ -151,6 +148,19 @@ input[type="number"] {
   px-3 
   left-0 
   w-full 
-  shadow-around
+  shadow-around;
 }
 
+.pot-btn {
+  @apply 
+  grow 
+  p-4 
+  rounded-lg 
+  bg-beige-100 
+  hover:bg-white 
+  hover:border 
+  hover:border-beige-500
+  preset-4-bold
+  transition-all
+  duration-200
+}

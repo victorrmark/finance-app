@@ -1,17 +1,14 @@
-import BudgetHeader from "./PotsHeader";
-import Budget from "./budgets"
+import PotsHeader from "./PotsHeader";
+import Pots from "./Pots";
 
 export default function page() {
   return (
     <>
       <div className="mb-8 flex items-center justify-between">
-        <BudgetHeader />
+        <PotsHeader />
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-10 lg:gap-2.5 justify-between items-start">
-        <BudgetChart />
-        <Budget />
-      </div>
+      <Pots />
     </>
   );
 }

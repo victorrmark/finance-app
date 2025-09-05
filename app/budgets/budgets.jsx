@@ -56,7 +56,10 @@ export default function Budgets() {
                 Maximum of {formatAmount(budget.maximum)}
               </p>
 
-              <div className="w-full bg-beige-100 rounded h-8 p-1">
+              <div
+                className="w-full bg-beige-100 rounded h-8 p-1"
+                aria-label="amount spent progress bar"
+              >
                 <div
                   className="h-6 rounded transition-all duration-500 ease-in-out"
                   style={{
@@ -123,9 +126,33 @@ export default function Budgets() {
                         tIdx > 0 ? "border-t border-gray-200" : ""
                       }`}
                     >
-                      <p>{transaction.name}</p>
-                      <p>{transaction.amount}</p>
-                      {/* <p>{new Date(transaction.date)}</p> */}
+                      <span className="flex gap-2 items-center">
+                        <Image
+                          alt="transaction icon"
+                          src={transaction.avatar}
+                          width={30}
+                          height={30}
+                          className="hidden sm:inline-block rounded-full"
+                        />
+
+                        <p className="preset-5-bold">{transaction.name}</p>
+                      </span>
+
+                      <span className="flex flex-col gap-1">
+                        <p className="preset-5-bold text-right">
+                          {formatAmount(transaction.amount)}
+                        </p>
+                        <p className="text-right preset-5">
+                          {new Date(transaction.date).toLocaleDateString(
+                            "en-GB",
+                            {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            }
+                          )}
+                        </p>
+                      </span>
                     </li>
                   );
                 })}
@@ -134,9 +161,6 @@ export default function Budgets() {
           </div>
         );
       })}
-
-      {/* <button onClick={() => setIsOpen(true)}>Open Modal</button> */}
-
     </div>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-import { getBaseUrl } from "@/utils/baseURL";
-import Modal from "./Modal";
+import { useState } from "react";
+import Modal from "../Components/Modal";
 import Image from "next/image";
 import AddBudgetForm from "./AddBudgetForm";
 
@@ -19,7 +18,7 @@ export default function BudgetHeader() {
         +Add New Budget
       </button>
 
-      <Modal isOpen={isAddBudgetOpen}>
+      <Modal isOpen={isAddBudgetOpen} handleClose={()=>setIsAddBudgetOpen(false)}>
         <div className="flex items-center justify-between w-full mb-5">
           <p className="leading-none text-xl font-bold sm:text-[2rem]">
             Add New Budget

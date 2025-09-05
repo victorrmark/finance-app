@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import Modal from "../Components/Modal";
 import Image from "next/image";
-import EditBudgetForm from "./EditBudgetForm";
+import EditPotForm from "./EditPotForm";
 import { getBaseUrl } from "@/utils/baseURL";
 
-export default function EditAndDelete({ budget }) {
+export default function EditAndDeleteEllipsis({ pot }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -20,19 +20,17 @@ export default function EditAndDelete({ budget }) {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`${getBaseUrl()}/api/budgets`, {
+      const res = await fetch(`${getBaseUrl()}/api/pots`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: budget.id }),
+        body: JSON.stringify({ id: pot.id }),
       });
 
       const data = await res.json();
-      // console.log(data)
 
       if (!res.ok) {
-        console.log("here");
         setToast({
           type: "error",
           message: data.message || "Failed to delete",
@@ -48,7 +46,6 @@ export default function EditAndDelete({ budget }) {
         window.location.reload();
       }, 1000);
     } catch (error) {
-      console.log(error.message);
       setToast({ type: "error", message: "Network or server error" });
       setTimeout(() => setToast(null), 3000);
     }
@@ -70,7 +67,7 @@ export default function EditAndDelete({ budget }) {
           onClick={() => setIsOpen(!isOpen)}
           className="flex items-center leadinig-none"
         >
-          <p className="text-gray-300 text-xl leading-none">...</p>
+          <p className="text-gray-300 text-xl font-extrabold leading-none">...</p>
         </button>
         {isOpen && (
           <div className="absolute right-0 top-9 bg-white rounded-lg shadow-around py-3 px-5 flex flex-col z-10">
@@ -81,7 +78,7 @@ export default function EditAndDelete({ budget }) {
                 setIsOpen(false);
               }}
             >
-              Edit Budget
+              Edit Pot
             </button>
             <button
               className="px-3 pb-3 pt-4 border-t border-gray-100 text-red-500 text-left whitespace-nowrap flex-shrink-0"
@@ -90,7 +87,7 @@ export default function EditAndDelete({ budget }) {
                 setIsOpen(false);
               }}
             >
-              Delete Budget
+              Delete Pot
             </button>
           </div>
         )}
@@ -101,7 +98,7 @@ export default function EditAndDelete({ budget }) {
         >
           <div className="flex items-center justify-between w-full mb-5">
             <p className="leading-none text-xl font-bold sm:text-[2rem]">
-              Edit {budget.category}
+              Edit Pot
             </p>
             <button onClick={() => setIsEditModalOpen(false)}>
               {" "}
@@ -114,24 +111,19 @@ export default function EditAndDelete({ budget }) {
             </button>
           </div>
           <p className="leading-none preset-4 mb-5">
-            As your budget changes, feel free to update your spending limits.
+            If your savings target change, feel free to update your pots.
           </p>
-          <EditBudgetForm
-            budget={budget}
+          <EditPotForm
+            pot={pot}
             setIsEditModalOpen={setIsEditModalOpen}
             setToast={setToast}
           />
         </Modal>
 
-        <Modal
-          isOpen={isDeleteModalOpen}
-          handleClose={() => {
-            setIsDeleteModalOpen(false);
-          }}
-        >
+        <Modal isOpen={isDeleteModalOpen}  handleClose={() => setIsDeleteModalOpen(false)}>
           <div className="flex items-center justify-between w-full mb-5">
-            <p className="leading-none text-xl font-bold sm:text-[2rem]">
-              Delete {budget.category}?
+            <p className="leading-none text-xl font-bold sm:text-[2rem] ">
+              Delete '{pot.name}'?
             </p>
             <button onClick={() => setIsDeleteModalOpen(false)}>
               {" "}
@@ -144,7 +136,7 @@ export default function EditAndDelete({ budget }) {
             </button>
           </div>
           <p className="leading-none preset-4 mb-5">
-            Are you sure you want to delete this budget? This action cannot be
+            Are you sure you want to delete this pot? This action cannot be
             reversed, and all data inside it will be removed for ever
           </p>
           <button

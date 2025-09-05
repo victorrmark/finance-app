@@ -45,7 +45,7 @@ async function fetchBudgets() {
 
 async function fetchPots() {
   const res = await fetch(`${getBaseUrl()}/api/pots`, {
-    cache: "no-store",
+    next: { revalidate: 60 },
   });
   if (!res.ok) throw new Error("Failed to fetch pots");
   return res.json();

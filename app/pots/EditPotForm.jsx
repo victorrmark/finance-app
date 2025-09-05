@@ -2,25 +2,21 @@ import { useFinanceData } from "../context/DataContext";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { getBaseUrl } from "@/utils/baseURL.js";
+import capitalizeWords from "@/utils/capitalizeWord";
 
-export default function AddBudgetForm({setToast, setIsAddBudgetOpen}) {
-  const { budgets } = useFinanceData();
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+export default function EditPotForm({ pot, setIsEditModalOpen, setToast }) {
+  const { pots } = useFinanceData();
   const [isThemeOpen, setIsThemeOpen] = useState(false);
-  const budgetRef = useRef(null);
   const themeRef = useRef(null);
 
-  const categories = [
-    "Groceries",
-    "Dining Out",
-    "Entertainment",
-    "Transportation",
-    "Personal Care",
-    "Education",
-    "Lifestyle",
-    "Bills",
-    "Shopping",
-  ].filter((c) => !budgets.map((b) => b.category).includes(c));
+  const [potName, setPotName] = useState(pot.name);
+  const [potTarget, setPotTarget] = useState(pot.target);
+  const [potTheme, setPotTheme] = useState(pot.theme);
+
+  const usedThemes = pots
+    .map((b) => b.theme)
+    .filter((t) => t !== pot.theme);
+
 
   const themes = [
     { color: "Green", hex: "#277C78" },
@@ -40,28 +36,18 @@ export default function AddBudgetForm({setToast, setIsAddBudgetOpen}) {
     { color: "Orange", hex: "#BE6C49" },
   ];
 
-  const usedThemes = themes
-    .filter((t) => budgets.some((b) => b.theme === t.hex))
-    .map((t) => t.hex);
-
-  const [budgetName, setBudgetName] = useState(categories[0]);
-  const [budgetMaximum, setBudgetMaximum] = useState("");
-  const [budgetTheme, setBudgetTheme] = useState(
-    themes.filter((t) => !budgets.some((b) => b.theme === t.hex))[0]?.hex
-  );
-
-
   const handleUpdate = async () => {
     try {
-      const res = await fetch(`${getBaseUrl()}/api/budgets`, {
-        method: "POST",
+      const res = await fetch(`${getBaseUrl()}/api/pots`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          category: budgetName,
-          maximum: Number(budgetMaximum),
-          theme: budgetTheme,
+          id: pot.id,
+          name: capitalizeWords(potName),
+          target: Number(potTarget),
+          theme: potTheme,
         }),
       });
 
@@ -69,7 +55,7 @@ export default function AddBudgetForm({setToast, setIsAddBudgetOpen}) {
         const errorData = await res.json();
         setToast({
           type: "error",
-          message: errorData.message || "All fields are required",
+          message: errorData.message || "Update failed",
         });
 
         setTimeout(() => {
@@ -80,12 +66,12 @@ export default function AddBudgetForm({setToast, setIsAddBudgetOpen}) {
       }
 
       await res.json();
-      setToast({ type: "success", message: "New Budget Added successfully!" });
-      setIsAddBudgetOpen(false);
+      setToast({ type: "success", message: "Budget updated successfully!" });
+      setIsEditModalOpen(false);
 
       setTimeout(() => {
         window.location.reload();
-      }, 1000);
+      }, 3000);
     } catch (error) {
       setToast({ type: "error", message: "Network or server error" });
 
@@ -96,10 +82,6 @@ export default function AddBudgetForm({setToast, setIsAddBudgetOpen}) {
   };
 
   const handleClickOutside = (e) => {
-    if (budgetRef.current && !budgetRef.current.contains(e.target)) {
-      setIsCategoryOpen(false);
-    }
-
     if (themeRef.current && !themeRef.current.contains(e.target)) {
       setIsThemeOpen(false);
     }
@@ -116,62 +98,24 @@ export default function AddBudgetForm({setToast, setIsAddBudgetOpen}) {
     <>
       <div className="flex flex-col gap-4">
         <div className="relative">
-          <p className="preset-5-bold mb-1">Budget Category</p>
-          <div ref={budgetRef}>
-            <button
-              type="button"
-              onClick={() => setIsCategoryOpen((prev) => !prev)}
-              className="dropDown-btn "
-            >
-              <p className="text-sm text-gray-900 ">{budgetName}</p>
-              <span
-                className={` transition-transform duration-700 ${
-                  isCategoryOpen ? "rotate-180" : ""
-                }`}
-              >
-                <Image
-                  src="/images/chevron-icon.svg"
-                  alt="Caret down"
-                  width={16}
-                  height={16}
-                />
-              </span>
-            </button>
-
-            {isCategoryOpen && (
-              <div className="dropDown">
-                <ul className="py-1">
-                  {categories.map((category, index) => (
-                    <li
-                      key={index}
-                      onClick={() => (
-                        setBudgetName(category),
-                        console.log("clicked"),
-                        setIsCategoryOpen(false)
-                      )}
-                      className={`py-3 hover:bg-neutral-200 cursor-pointer text-gray-900 text-sm ${
-                        index === 0 ? "" : "border-t border-gray-200"
-                      }`}
-                    >
-                      {category}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+          <p className="preset-5-bold mb-1">Pot Name</p>
+          <input
+            type="text"
+            value={potName}
+            onChange={(e) => setPotName(e.target.value)}
+            className="w-full pl-3 p-2 border border-beige-500 rounded-md focus:border-gray-900"
+          />
         </div>
 
         <div className="relative w-full ">
-          <p className="preset-5-bold mb-1">Maximum Spending</p>
+          <p className="preset-5-bold mb-1">Target</p>
           <span className="absolute left-3 top-[40px] -translate-y-1/2 text-gray-500">
             $
           </span>
           <input
             type="number"
-            value={budgetMaximum}
-            placeholder="e.g. 2000"
-            onChange={(e) => setBudgetMaximum(e.target.value)}
+            value={potTarget}
+            onChange={(e) => setPotTarget(e.target.value)}
             className="w-full pl-7 p-2 border border-beige-500 rounded-md focus:border-gray-900"
           />
         </div>
@@ -188,12 +132,12 @@ export default function AddBudgetForm({setToast, setIsAddBudgetOpen}) {
                 <div
                   className="w-4 h-4 rounded-full"
                   style={{
-                    backgroundColor: themes.find((t) => t.hex === budgetTheme)
+                    backgroundColor: themes.find((t) => t.hex === potTheme)
                       ?.hex,
                   }}
                 ></div>
                 <p className="text-sm text-gray-900 ">
-                  {themes.find((t) => t.hex === budgetTheme)?.color}
+                  {themes.find((t) => t.hex === potTheme)?.color}
                 </p>
               </div>
               <span
@@ -220,7 +164,7 @@ export default function AddBudgetForm({setToast, setIsAddBudgetOpen}) {
                       <li
                         key={index}
                         onClick={() => (
-                          !isUsed && setBudgetTheme(theme.hex),
+                          !isUsed && setPotTheme(theme.hex),
                           setIsThemeOpen(false)
                         )}
                         className={`py-3 cursor-pointer flex justify-between items-center ${
@@ -242,6 +186,14 @@ export default function AddBudgetForm({setToast, setIsAddBudgetOpen}) {
                         </div>
                         <div>
                           {isUsed && <p className="preset-5">Already Used</p>}
+                          {theme.hex === pot.theme && (
+                            <Image
+                              src="/images/icon-selected.svg"
+                              alt="Caret down"
+                              width={16}
+                              height={16}
+                            />
+                          )}
                         </div>
                       </li>
                     );
@@ -257,7 +209,7 @@ export default function AddBudgetForm({setToast, setIsAddBudgetOpen}) {
         className="text-sm text-white font-bold w-full bg-gray-900 p-4 rounded-lg mt-6"
         onClick={handleUpdate}
       >
-        Add Budget
+        Save Changes
       </button>
     </>
   );

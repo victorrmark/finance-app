@@ -1,8 +1,12 @@
 import { useEffect } from "react";
-import ReactPortal from "../Components/ReactPortal";
+import ReactPortal from "./ReactPortal";
 
 export default function Modal({ children, isOpen, handleClose }) {
   useEffect(() => {
+    // const handleClose = () => {
+
+    // };
+
     const closeOnEscapeKey = (e) => (e.key === "Escape" ? handleClose() : null);
     document.body.addEventListener("keydown", closeOnEscapeKey);
     return () => {
@@ -16,9 +20,7 @@ export default function Modal({ children, isOpen, handleClose }) {
     <ReactPortal wrapperId="react-portal-modal-container">
       <>
         <div className="modal-overlay" />
-        <div className="modal-content">
-          {children}
-        </div>
+        <div className="modal-content">{children}</div>
       </>
     </ReactPortal>
   );

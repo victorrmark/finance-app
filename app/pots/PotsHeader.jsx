@@ -1,30 +1,29 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-import { getBaseUrl } from "@/utils/baseURL";
-import Modal from "./Modal";
+import { useState } from "react";
+import Modal from "../Components/Modal";
 import Image from "next/image";
-import AddBudgetForm from "./AddBudgetForm";
+import AddPotsForm from "./AddPotsForm";
 
 export default function BudgetHeader() {
   const [toast, setToast] = useState(null);
-  const [isAddBudgetOpen, setIsAddBudgetOpen] = useState(false);
+  const [isAddPotsOpen, setIsAddPotsOpen] = useState(false);
 
   return (
     <>
-      <h1>Budgets</h1>
+      <h1>Pots</h1>
       <button
         className="text-white text-sm font-bold bg-gray-900 rounded-lg p-4 hover:bg-gray-500 transition-colors duration-500"
-        onClick={() => setIsAddBudgetOpen(true)}
+        onClick={() => setIsAddPotsOpen(true)}
       >
-        +Add New Budget
+        +Add New Pot
       </button>
 
-      <Modal isOpen={isAddBudgetOpen}>
+      <Modal isOpen={isAddPotsOpen} handleClose={() => setIsAddPotsOpen(false)}>
         <div className="flex items-center justify-between w-full mb-5">
           <p className="leading-none text-xl font-bold sm:text-[2rem]">
-            Add New Budget
+            Add New Pot
           </p>
-          <button onClick={() => setIsAddBudgetOpen(false)}>
+          <button onClick={() => setIsAddPotsOpen(false)}>
             {" "}
             <Image
               width={20}
@@ -35,12 +34,10 @@ export default function BudgetHeader() {
           </button>
         </div>
         <p className="leading-none preset-4 mb-5">
-          Choose a category to set a spending budget. These categories can help
-          you monitor spending.
+          Choose a pot to set a saving targets. These can help you on track as you save for special purchases.
         </p>
-        <AddBudgetForm
-          //   budget={budget}
-          setIsAddBudgetOpen={setIsAddBudgetOpen}
+        <AddPotsForm
+          setIsAddPotsOpen={setIsAddPotsOpen}
           setToast={setToast}
         />
       </Modal>
