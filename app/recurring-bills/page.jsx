@@ -4,6 +4,11 @@ import SearchRecurring from "./searchRecurring.jsx";
 import { getBaseUrl } from "@/utils/baseURL.js";
 import SortRecurring from "./sortRecurring.jsx";
 
+export const metadata = {
+  title: "Recurring Bills",
+  description: "Stay on top of subscriptions and regular payments with reminders for upcoming bills.",
+};
+
 
 async function fetchTransactions(
   query = "",

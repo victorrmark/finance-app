@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import data from "../../../_db/db.json";
 import { revalidatePath } from "next/cache";
 
-
 export async function GET() {
   return NextResponse.json(data.pots, {
     status: 200,
@@ -42,7 +41,7 @@ export async function PUT(request) {
 
     data.pots[potIndex] = updatedPot;
 
-    revalidatePath("/pots")
+    revalidatePath("/pots");
 
     return NextResponse.json(updatedPot, {
       status: 200,
@@ -93,8 +92,7 @@ export async function DELETE(request) {
 
 export async function POST(request) {
   try {
-    const {name, target, theme} = await request.json();
-
+    const { name, target, theme } = await request.json();
 
     if (!name || !target || !theme) {
       return NextResponse.json(
@@ -120,7 +118,6 @@ export async function POST(request) {
     return NextResponse.json(newPot, {
       status: 200,
     });
-
   } catch (error) {
     return NextResponse.json(
       { message: "Internal Server Error" },
@@ -158,18 +155,30 @@ export async function PATCH(request) {
     const pot = data.pots[potIndex];
 
     let newTotal;
-    if (action === "withdraw") {
-      newTotal = pot.total - amount;
-      if (newTotal < 0) newTotal = 0;
-    } else if (action === "add") {
-      newTotal = pot.total + amount;
-    } else {
-      return NextResponse.json(
-        { message: "Invalid action" },
-        {
-          status: 400,
+    switch (action) {
+      case "withdraw": {
+        newTotal = Math.max(0, pot.total - amount); // clamp to 0
+        data.balance.current += amount;
+        break;
+      }
+
+      case "add": {
+        if (amount > data.balance.current) {
+          return NextResponse.json(
+            { message: "Insufficient funds" },
+            { status: 400 }
+          );
         }
-      );
+        data.balance.current -= amount;
+        newTotal = pot.total + amount;
+        break;
+      }
+
+      default:
+        return NextResponse.json(
+          { message: "Invalid action" },
+          { status: 400 }
+        );
     }
 
     const updatedPot = {
@@ -180,6 +189,7 @@ export async function PATCH(request) {
     data.pots[potIndex] = updatedPot;
 
     revalidatePath("/pots");
+    revalidatePath("/overview");
 
     return NextResponse.json(updatedPot, {
       status: 200,

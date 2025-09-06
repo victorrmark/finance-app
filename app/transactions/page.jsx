@@ -5,6 +5,11 @@ import Search from "./search.jsx";
 import Filter from "./filter.jsx";
 import SortBy from "./sort.jsx";
 
+export const metadata = {
+  title: "Transactions",
+  description: "Track and review all your income and expenses with detailed transaction history.",
+};
+
 async function fetchTransactions(
   query = "",
   filterBy = "all",

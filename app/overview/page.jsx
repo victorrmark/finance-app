@@ -4,6 +4,11 @@ import Pots from "./pots";
 import Transactions from "./transactions";
 import Budgets from "./budgets";
 
+export const metadata = {
+  title: "Dashboard",
+  description: "Get a complete overview of your finances, including balances, spending, and income trends in one place.",
+};
+
 export default function OverView() {
   return (
     <>
@@ -26,7 +31,6 @@ export default function OverView() {
           <Recurring />
         </div>
       </main>
-
     </>
   );
 }
