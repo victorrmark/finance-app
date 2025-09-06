@@ -4,6 +4,8 @@ import Sidebar from "./Components/sidebar";
 import { FinanceProvider } from "./context/DataContext";
 import { getBaseUrl } from "@/utils/baseURL";
 
+export const dynamic = "force-dynamic";
+
 const publicSans = Public_Sans({
   variable: "--font-public-sans",
   subsets: ["latin"],
