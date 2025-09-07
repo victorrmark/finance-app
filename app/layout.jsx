@@ -20,7 +20,9 @@ export const metadata = {
 };
 
 async function fetchBalance() {
-  const res = await fetch(`${getBaseUrl()}/api/balance`, {
+  const url = `${getBaseUrl()}/api/balance`;
+  console.log("Fetching balance from:", url); // debug
+  const res = await fetch(url, {
     next: {
       revalidate: 30,
     },
